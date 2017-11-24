@@ -1,4 +1,4 @@
-var arguments = process.argv[process.argv.length-1];
+var arguments = process.argv[process.argv.length - 1];
 var cheerio = require('cheerio');
 var async = require('async');
 var superagent = require('superagent');
@@ -11,6 +11,7 @@ var count = 0;
 
 // 指定型号的url,后续id可以变动
 var url = `https://www.autozi.com/goods/detail/${arguments}.html`;
+// 设置cookie 和ua
 var cookie = 'JSESSIONID=91E6C087B7BF10BDC74F828DB478BA69; SPRING_SECURITY_REMEMBER_ME_COOKIE=T0NFQU55YzIwMTY6MTUxMTQzMjQzNjM4NjpjYmQ2Yzg0Mjg0MzljNDMyNWNkZjM4ZTZlZTRjZDQwZQ; mallCustomer=autozi; goodsScope=1; MallName=%E4%B8%AD%E9%A9%B0%E8%BD%A6%E7%A6%8F; areaStoreId=1603311432390038; thiscart=""; askpricecart=""; loginname=OCEANyc2016; NTKF_T2D_CLIENTID=guestAE396973-FD78-B91E-ABE0-E851C40D54EF; nTalk_CACHE_DATA={uid:kf_9588_ISME9754_OCEANyc2016,tid:1511431193610883}; Hm_lvt_039d115effb1a43fa3c66e592c74aa5e=1511348022; Hm_lpvt_039d115effb1a43fa3c66e592c74aa5e=1511431226; b2c_goods_browse_history_key=1411201748550249';
 var UserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36';
 /**
@@ -135,18 +136,18 @@ function fecthDetailData(data) {
       .set('User-Agent', UserAgent)
       .set('Upgrade-Insecure-Requests', 1)
       .end((err, res) => {
-      if (err) {
-        return console.log(err);
-      }
-      var $ = cheerio.load(res.text);
-      var arr = fecthData.brandData[item.bname][item.name] = []
-      $('#carmodelsContainer li').each((index, el) => {
-        $el = $(el);
-        arr.push($el.text());
-      });
-      count++;
-      callBack(null, fecthData)
-    })
+        if (err) {
+          return console.log(err);
+        }
+        var $ = cheerio.load(res.text);
+        var arr = fecthData.brandData[item.bname][item.name] = []
+        $('#carmodelsContainer li').each((index, el) => {
+          $el = $(el);
+          arr.push($el.text());
+        });
+        count++;
+        callBack(null, fecthData)
+      })
   }
 }
 
